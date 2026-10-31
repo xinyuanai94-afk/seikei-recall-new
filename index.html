@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" class=""><head><script>window.livecodes = window.livecodes || {};</script><title>空のプロジェクト</title><meta name="title" content="空のプロジェクト"><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><link rel="stylesheet" href="./style.css"><script src="https://cdn.jsdelivr.net/npm/es-module-shims@1.10.0/dist/es-module-shims.js" async=""></script><script type="importmap">{
+  "imports": {}
+}</script></head><body>
+
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f2e9">
+  <title>政経 Recall.</title>
+  <link rel="stylesheet" href="style.css">
+
+
+
+<div id="app">
+  <header class="top">
+    <div>
+      <p class="eyebrow">PERSONAL STUDY TOOL</p>
+      <h1>政経 <span>Recall.</span></h1>
+      <p class="subtitle">意味から用語を思い出す、一問一答。</p>
+    </div>
+    <div class="stats">
+      <div><strong id="total">0</strong><small>登録数</small></div>
+      <div><strong id="mastered">0</strong><small>習得済み</small></div>
+      <div><strong id="weak">0</strong><small>苦手</small></div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-page="study">学習する</button>
+    <button class="tab" data-page="dashboard">学習状況</button>
+    <button class="tab" data-page="manage">問題を管理</button>
+  </nav>
+
+  <main>
+    <!-- 学習画面 -->
+    <section id="studyPage">
+      <div class="filters">
+        <select id="category">
+          <option value="すべて">すべての分野</option>
+          <option>政治</option>
+          <option>経済</option>
+          <option>国際</option>
+          <option>公共</option>
+        </select>
+
+        <select id="mode">
+          <option value="all">すべて出題</option>
+          <option value="weak">苦手だけ</option>
+          <option value="due">復習対象だけ</option>
+        </select>
+      </div>
+
+      <div class="progress-area">
+        <div class="progress-label">
+          <span id="counter">0 / 0</span>
+          <span id="progressText">学習を始めよう</span>
+        </div>
+        <div class="progress">
+          <div id="progressBar"></div>
+        </div>
+      </div>
+
+      <article class="card" id="studyCard">
+        <div class="card-top">
+          <span id="cardCategory" class="badge">政治</span>
+          <span id="cardStatus" class="status">未学習</span>
+        </div>
+
+        <p class="question-label">QUESTION</p>
+        <div id="definition" class="definition"></div>
+
+        <div id="answerArea" class="answer-area hidden">
+          <div class="answer-line"></div>
+          <p class="answer-label">ANSWER</p>
+          <h2 id="term"></h2>
+          <p id="extra" class="extra"></p>
+        </div>
+
+        <button id="reveal" class="primary">答えを見る</button>
+
+        <div id="judgeArea" class="judge hidden">
+          <button id="unknown" class="judge-btn unsure">
+            ← まだ曖昧
+          </button>
+          <button id="known" class="judge-btn sure">
+            覚えた →
+          </button>
+        </div>
+
+        <p id="swipeHint" class="swipe-hint hidden">
+          左：まだ曖昧 ／ 右：覚えた
+        </p>
+      </article>
+
+      <div class="controls">
+        <button id="prev" class="secondary">← 前へ</button>
+        <button id="shuffle" class="secondary">シャッフル</button>
+        <button id="next" class="secondary">次へ →</button>
+      </div>
+
+      <p id="emptyMessage" class="empty hidden">
+        この条件に合う問題がありません。
+        分野や出題モードを変更してね。
+      </p>
+
+      <p class="tiny-note">
+        「まだ曖昧」にしたカードは、ほかのカードを4枚進めたあとにもう一度出題されます。
+      </p>
+    </section>
+
+    <!-- 学習状況画面 -->
+    <section id="dashboardPage" class="hidden">
+      <h2 class="section-title">習得率</h2>
+
+      <div class="overall-panel">
+        <div>
+          <span class="muted">全体の習得率</span>
+          <strong id="overallRate">0%</strong>
+        </div>
+
+        <div class="big-progress">
+          <div id="overallBar"></div>
+        </div>
+
+        <p id="overallCaption" class="muted">
+          習得済み 0 / 0 問
+        </p>
+      </div>
+
+      <h2 class="section-title">カテゴリー別</h2>
+      <div id="categoryProgress" class="progress-list"></div>
+
+      <h2 class="section-title">苦手ランキング</h2>
+      <p class="muted small">
+        「まだ曖昧」と判定した回数が多い順に表示します。
+      </p>
+      <ol id="weakRanking" class="ranking"></ol>
+
+      <h2 class="section-title">復習スケジュール</h2>
+      <p id="reviewSummary" class="muted"></p>
+    </section>
+
+    <!-- 問題管理画面 -->
+    <section id="managePage" class="hidden">
+      <h2 class="section-title">問題を追加する</h2>
+
+      <form id="addForm" class="form">
+        <label>
+          意味・説明
+          <textarea id="newDefinition" required=""></textarea>
+        </label>
+
+        <label>
+          用語
+          <input id="newTerm" required="">
+        </label>
+
+        <label>
+          分野
+          <select id="newCategory">
+            <option>政治</option>
+            <option>経済</option>
+            <option>国際</option>
+            <option>公共</option>
+          </select>
+        </label>
+
+        <label>
+          補足・覚えるポイント
+          <textarea id="newExtra"></textarea>
+        </label>
+
+        <button class="primary" type="submit">
+          ＋ 問題を追加
+        </button>
+      </form>
+
+      <h2 class="section-title">一括登録</h2>
+
+      <div class="form">
+        <p class="import-description">
+          「カテゴリー・意味・用語・補足」の順番で、
+          タブ区切りのデータを貼り付けてね。
+          1行につき1問登録できます。
+        </p>
+
+        <textarea id="bulkInput" class="bulk-input" placeholder="政治	問題文	用語	補足
+公共	問題文	用語	補足"></textarea>
+
+        <button id="bulkAdd" class="primary" type="button">
+          まとめて登録する
+        </button>
+
+        <p id="bulkResult" class="import-result"></p>
+      </div>
+
+      <div class="list-heading">
+        <h2 class="section-title">登録済みの問題</h2>
+        <input id="search" placeholder="用語・説明を検索">
+      </div>
+
+      <div id="cardList"></div>
+    </section>
+  </main>
+
+  <footer>YOUR PACE, YOUR PROGRESS.</footer>
+</div>
+
+<script src="script.js"></script>
+
+<script src="./script.js"></script></body></html>
